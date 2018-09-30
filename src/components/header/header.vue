@@ -11,33 +11,37 @@
           <router-link to="/music">音乐</router-link>
           <router-link to="/photo">照片</router-link>
         </div>
-        <div id="addEventListener">aaa</div>
       </div>
+      <div id="addEventListener">aaa</div>
     </div>
   </div>
 </template>
 
 <script>
-window.addEventListener('hashchange', () => {
-  var text = '';
-  switch (location.hash) {
-    case '#/music':
-      text = '音乐';
-      break;
-    case '#/movie':
-      text = '电影';
-      break;
-    case '#/photo':
-      text = '照片';
-      break;
-  };
-  document.getElementById('addEventListener').innerHTML = text
-})
 export default {
   data () {
     return {
       msg: '我是header啊'
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      window.addEventListener('hashchange', () => {
+        var text = '';
+        switch (location.hash) {
+          case '#/music':
+            text = '音乐';
+            break;
+          case '#/movie':
+            text = '电影';
+            break;
+          case '#/photo':
+            text = '照片';
+            break;
+        };
+        document.getElementById('addEventListener').innerHTML = text
+      })
+    })
   }
 }
 </script>
@@ -62,6 +66,9 @@ export default {
     padding: 10px;
   }
   #addEventListener {
-    float: right
+    float: right;
+    padding: 10px;
+    height: 45px;
+    line-height: 45px
   }
 </style>
