@@ -11,7 +11,7 @@
           <router-link to="/music">音乐</router-link>
           <router-link to="/photo">照片</router-link>
         </div>
-        <div id="addEventListener"></div>
+        <div id="addEventListener">aaa</div>
       </div>
     </div>
   </div>
