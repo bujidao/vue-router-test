@@ -12,11 +12,44 @@ import VueAxios from 'vue-axios'
 
 import '@/assets/css/reset.css'
 
-require('./mockjs/index.js')
+Vue.prototype.$axios = axios
+
+// require('./mockjs/index.js')
 
 Vue.use(ElementUI, axios, VueAxios)
 
 Vue.config.productionTip = false
+
+// test content
+Vue.filter('currency', function (val, util) {
+  val = val || 0;
+  util = util || '元';
+  return val * 100 + util
+})
+
+Vue.directive('pin', function (el, binding) {
+  var pinned = binding.value;
+  var position = binding.modifiers;
+  console.log('i am going to binding')
+  console.log(position);
+  if (pinned) {
+    el.style.position = 'fixed';
+    if (position.top) {
+      el.style.top = '20px'
+    } else if (position.left) {
+      el.style.left = '20px'
+    } else if (position.bottom) {
+      el.style.bottom = '20px'
+    } else if (position.right) {
+      el.style.right = '20px'
+    }
+  } else {
+    el.style.position = 'static'
+  }
+})
+
+// pin 自定义属性
+
 
 /* eslint-disable no-new */
 new Vue({

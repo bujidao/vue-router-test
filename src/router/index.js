@@ -6,6 +6,7 @@ import Router from 'vue-router'
 import routerMovies from './movie'
 import routerMusic from './music'
 import routerPhoto from './photo'
+import routerTest from './test'
 
 // 声明公共模块
 import Header from '@/components/header/header.vue'
@@ -23,18 +24,6 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'index',
-    //   meta: {
-    //     title: '首页'
-    //   },
-    //   children: [
-    //     routerMovies,
-    //     routerMusic,
-    //     routerPhoto
-    //   ]
-    // },
     {
       path: '/',
       name: 'index',
@@ -46,6 +35,7 @@ export default new Router({
     routerMovies,
     routerMusic,
     routerPhoto,
+    routerTest,
     {
       path: '',
       name: '404',

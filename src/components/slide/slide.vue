@@ -11,6 +11,9 @@
       <li>
         <router-link :to="{name: 'photo'}">照片</router-link>
       </li>
+      <li>
+        <router-link :to="{name: 'test'}">测试</router-link>
+      </li>
     </ul>
   </div>
 </template>
