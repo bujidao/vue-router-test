@@ -12,6 +12,8 @@ import VueAxios from 'vue-axios'
 
 import '@/assets/css/reset.css'
 
+import store from './store'
+
 Vue.prototype.$axios = axios
 
 // require('./mockjs/index.js')
@@ -50,11 +52,11 @@ Vue.directive('pin', function (el, binding) {
 
 // pin 自定义属性
 
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

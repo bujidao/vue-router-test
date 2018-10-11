@@ -1,5 +1,9 @@
 <template>
   <div class="comedy-wrapper">
+    <div class="loading-wrapper" v-show="showLoading">
+      <p>正在努力加载<i class="el-icon-loading"></i></p>
+
+    </div>
     <div class="movieList-wrapper">
       <ul>
         <li v-for="(movie,index) in movieList" :key="index" class="movie-wrapper">
@@ -56,7 +60,7 @@
         </li>
       </ul>
     </div>
-    <div class="page-wrapper">
+    <div class="page-wrapper" v-show="!showLoading">
       <el-pagination
         :page-size.sync="page.count"
         :current-page.sync="page.currentPage"
@@ -76,6 +80,7 @@ export default {
   data () {
     return {
       msg: '我是喜剧电影',
+      // 详情弹层
       dialog: {
         visible: false,
         data: ''
@@ -138,16 +143,20 @@ export default {
       //   }
       // ],
       totalNum: 0,
+      // 传送到后端相关数据
       page: {
         currentPage: 1, // 当前页数
-        count: 3, // 每页显示条数
+        count: 2, // 每页显示条数
         city: '北京', // 地点
         q: '', // 电影关键字 战狼
         tag: '' // 电影类别
-      }
+      },
+      // 显示加载按钮
+      showLoading: false
     }
   },
   created () {
+    this.pullFromPageState()
     this.loadingData()
   },
   methods: {
@@ -157,28 +166,24 @@ export default {
         data: movie
       }
     },
-    showTimeSome () {
-      console.log('ahahhahaa')
-    },
     // 加载数据
     loadingData () {
-      console.log(getMovieList)
+      this.showLoading = true
       var params = {
         'start': (this.page.currentPage - 1) * this.page.count,
         'count': this.page.count
       }
       /**/
       getMovieList(params).then(res => {
-        console.log(res)
         if (res.status === 200) {
           this.totalNum = res.data.total
-          var movieData = res.data.subjects
-          this.movieList = this.formatData(movieData)
+          this.movieList = this.formatData(res.data.subjects)
+          this.showLoading = false
+          this.pushToPageState()
         }
-        console.log('i am in getMovieList')
       })
       /*
-      this.$axios.post('/api/v2/movie/top250', params).then(res => {
+      this.$axios.post('/api/v2/movie/top250', {count: 3,currentPage: 1}).then(res => {
         console.log(res)
         if (res.status === 200) {
           this.totalNum = res.data.total
@@ -189,6 +194,22 @@ export default {
         console.log(err)
       })*/
     },
+    // 状态管理
+    pushToPageState () {
+      this.$store.commit('currentPage', this.page.currentPage)
+      this.$store.commit('perPage', this.page.count)
+      // this.$store.state.movie.count = this.page.count
+      console.log("push to page state")
+      console.log(this.$store.state.movie.currentPage)
+      console.log("push to page state")
+    },
+    pullFromPageState () {
+      console.log("aaaaa i am getting crazy")
+      console.log(this.$store.state.movie.count)
+      console.log(this.page.count)
+      this.page.count = this.$store.state.movie.count
+      this.page.currentPage = this.$store.state.movie.currentPage
+    },
     // 转换数据
     formatData (data) {
       for (var i = 0; i < data.length; i++) {
@@ -198,9 +219,6 @@ export default {
     },
     // 页码管理
     handleChangePage (a) {
-      console.log("page manager")
-      console.log(a)
-      console.log(this.page.currentPage)
       this.loadingData()
     }
   },
@@ -211,6 +229,8 @@ export default {
 
 <style lang="stylus" rel="stylesheet/stylus">
   .comedy-wrapper
+    .loading-wrapper
+      text-align: center
     .movieList-wrapper
       .movie-wrapper
         margin: 10px 0

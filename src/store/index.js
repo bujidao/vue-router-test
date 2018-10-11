@@ -1,17 +1,24 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import app from './modules/app'
-import user from './modules/user'
-import getters from './getters'
+import state from './state'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  modules: {
-    app,
-    user
+  state,
+  getter: {
   },
-  getters
+  mutations: {
+    currentPage: function (state, page) {
+      console.log('current movie list page')
+      console.log(state)
+      console.log(state.movie.page)
+      state.movie.currentPage = page
+    },
+    perPage: function (state, count) {
+      state.movie.count = count
+    }
+  }
 })
 
 export default store
